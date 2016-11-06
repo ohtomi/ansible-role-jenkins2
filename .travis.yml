@@ -1,35 +1,28 @@
 ---
-language: python
-python: "2.7"
-
-# Use the new container infrastructure
 sudo: required
 env:
-  matrix:
   - OS_TYPE=centos OS_VERSION=7
 
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+services:
+  - docker
 
-install:
-  # Install ansible
-  - pip install ansible
-
-  # Check ansible version
-  - ansible --version
-
-  # Create ansible.cfg with correct roles_path
-  - printf '[defaults]\nroles_path=../' >ansible.cfg
+before_install:
+  - sudo apt-get update
+    #- echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+    #- sudo service docker restart
+    #- sleep
+  - sudo docker ${OS_TYPE}:${OS_VERSION}
+  - sudo docker build --rm=true -t ansible-role-jenkins2 -f tests/Dockerfile
 
 script:
-  # Basic role syntax check
-  - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-
-  # Run role
-  - ansible-playbook tests/test.yml -i tests/inventory
+  # Run container in detached state
+  - sudo docker run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro ansible-role-jenkins2 /usr/lib/systemd/systemd > /tmp/container_id
+  # Check syntax of ansible playbook
+  - sudo docker exec "$(cat /tmp/container_id)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml --syntax-check
+  # Run ansible playbook
+  - sudo docker exec "$(cat /tmp/container_id)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml
+  # Clean up
+  - sudo docker stop "$(cat /tmp/container_id)"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
