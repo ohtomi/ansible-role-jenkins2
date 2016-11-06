@@ -11,6 +11,8 @@ before_install:
     #- echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
     #- sudo service docker restart
     #- sleep
+  - mkdir -p tests/roles/ansible-role-jenkins2
+  - cp -r ./* tests/roles/ansible-role-jenkins2/
   - sudo docker pull ${OS_TYPE}:${OS_VERSION}
   - sudo docker build --rm=true -t ansible-role-jenkins2 tests
 
