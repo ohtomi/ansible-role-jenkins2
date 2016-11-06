@@ -1,2 +1,18 @@
 ---
 # tasks file for ansible-role-jenkins
+
+- include: "install_{{ ansible_os_family }}.yml"
+
+- include: "configure_{{ ansible_os_family }}.yml"
+
+- include: "install_plugins.yml"
+
+- name: Jenkins Service
+  service:
+    name: jenkins
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Jenkins Admin Password
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword

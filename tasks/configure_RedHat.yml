@@ -1,0 +1,22 @@
+---
+# included file
+
+- name: Jenkins Port
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: ^JENKINS_PORT=
+    line: "JENKINS_PORT={{ jenkins_port }}"
+  become: yes
+  notify:
+    - "Restart Service 'jenkins'"
+
+- name: Jenkins JVM Arguments
+  lineinfile:
+    dest: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true"'
+    line: 'JENKINS_JAVA_OPTIONS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+  become: yes
+  notify:
+    - "Restart Service 'jenkins'"
+
+- meta: flush_handlers

@@ -1,0 +1,5 @@
+---
+# included file
+
+- name: Plugins Installation
+  command: echo "TODO"

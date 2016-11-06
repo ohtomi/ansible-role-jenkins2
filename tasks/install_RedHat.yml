@@ -1,0 +1,23 @@
+---
+# included file
+
+- name: Jenkins RPM Key
+  rpm_key:
+    key: "https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+    state: present
+  become: yes
+
+- name: Jenkins YUM Repository
+  yum_repository:
+    name: jenkinsrepo
+    description: Jenkins YUM repo
+    baseurl: http://pkg.jenkins.io/redhat
+    gpgcheck: yes
+    state: present
+  become: yes
+
+- name: Jenkins Installation
+  yum:
+    name: jenkins
+    state: latest
+  become: yes
