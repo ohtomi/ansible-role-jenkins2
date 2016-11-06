@@ -13,6 +13,3 @@
     state: started
     enabled: yes
   become: yes
-
-- name: Jenkins Admin Password
-  command: cat /var/lib/jenkins/secrets/initialAdminPassword
