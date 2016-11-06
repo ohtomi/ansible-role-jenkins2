@@ -22,8 +22,8 @@ RUN yum clean all
 # Disable requiretty
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/' /etc/sudoers
 # Install Ansible role files
-COPY tests/inventory /etc/ansible/inventory
-COPY tests/test.yml /etc/ansible/test.yml
-COPY ./ /etc/ansible/roles/ansible-role-jenkins2/
+COPY inventory /etc/ansible/inventory
+COPY test.yml /etc/ansible/test.yml
+COPY ../ /etc/ansible/roles/ansible-role-jenkins2/
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
