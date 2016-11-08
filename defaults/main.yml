@@ -1,4 +1,10 @@
 ---
 # defaults file for ansible-role-jenkins
 
-jenkins_port: 8080
+jenkins2_version: jenkins
+
+jenkins2_disable_gpg_check: no
+
+jenkins2_http_port: 8080
+
+jenkins2_context_path: ''

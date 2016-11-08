@@ -10,7 +10,7 @@
 - name: Jenkins YUM Repository
   yum_repository:
     name: jenkinsrepo
-    description: Jenkins YUM repo
+    description: Jenkins YUM Repository
     baseurl: http://pkg.jenkins.io/redhat
     gpgcheck: yes
     state: present
@@ -18,6 +18,7 @@
 
 - name: Jenkins Installation
   yum:
-    name: jenkins
-    state: latest
+    name: "{{ jenkins2_version }}"
+    disable_gpg_check: "{{ jenkins2_disable_gpg_check }}"
+    state: present
   become: yes
