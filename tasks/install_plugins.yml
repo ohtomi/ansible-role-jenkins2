@@ -17,13 +17,12 @@
     group: root
     mode: 0444
   with_items:
-    - cli_user_regisration.groovy
-    # - update_centor_update.groovy
+    - cli_user_registration.groovy
     # - proxy_configuration.groovy
     # - git_plugin_configuration.groovy
 
-- name: CLI User Regisration
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/cli_user_regisration.groovy"
+- name: CLI User Registration
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/cli_user_registration.groovy"
 
 - name: Plugins Installation
   shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} install-plugin {{ item }}"
