@@ -9,7 +9,7 @@ services:
 before_install:
   - sudo apt-get update
   - mkdir -p tests/roles/ansible-role-jenkins2
-  - cp -r defaults handlers meta tasks vars tests/roles/ansible-role-jenkins2/
+  - cp -r defaults handlers meta tasks templates vars tests/roles/ansible-role-jenkins2/
   - sudo docker pull ${OS_TYPE}:${OS_VERSION}
   - sudo docker build --rm=true -t ansible-role-jenkins2 tests
 
