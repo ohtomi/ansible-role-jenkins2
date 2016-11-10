@@ -8,3 +8,31 @@ jenkins2_disable_gpg_check: no
 jenkins2_http_port: 8080
 
 jenkins2_context_path: ''
+
+jenkins2_cli_username: admin
+
+jenkins2_cli_password: admin
+
+# https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/jenkins/install/platform-plugins.json
+jenkins2_suggested_plugins:
+  - ant
+  - antisamy-markup-formatter
+  - build-timeout
+  - cloudbees-folder
+  - credentials-binding
+  - email-ext
+  # - git
+  - gradle
+  - ldap
+  - mailer
+  - matrix-auth
+  - pam-auth
+  - pipeline-stage-view
+  - ssh-slaves
+  - subversion
+  - timestamper
+  - workflow-aggregator
+  # - github-organization-folder
+  - ws-cleanup
+
+jenkins2_plugins: []
