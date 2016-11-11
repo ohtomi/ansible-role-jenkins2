@@ -17,12 +17,16 @@
     group: root
     mode: 0444
   with_items:
-    - cli_user_registration.groovy
+    - security_realm_name.groovy
     # - proxy_configuration.groovy
-    # - git_plugin_configuration.groovy
 
-- name: CLI User Registration
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/cli_user_registration.groovy"
+- name: Security Realm Checking
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/security_realm_name.groovy"
+  register: jenkins2_security_realm_name
+
+- name: CLI Login
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} login --username {{ jenkins2_cli_username }}  --password {{ jenkins2_cli_password }}"
+  when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
 
 - name: Plugins Installation
   shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} install-plugin {{ item }}"
@@ -31,3 +35,7 @@
     - "{{ jenkins2_plugins }}"
   notify:
     - Restart Jenkins
+
+- name: CLI Logout
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} logout"
+  when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
