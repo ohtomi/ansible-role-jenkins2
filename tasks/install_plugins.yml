@@ -9,7 +9,7 @@
     group: root
     mode: 0444
 
-- name: Groovy Scripts
+- name: Scripts for Jenkins CLI
   template:
     src: "{{ item }}"
     dest: "/tmp/{{ item }}"
@@ -17,7 +17,7 @@
     group: root
     mode: 0444
   with_items:
-    - security_realm_name.groovy
+    - security_realm_name.sh
     # - proxy_configuration.groovy
 
 - name: Security Realm Checking
