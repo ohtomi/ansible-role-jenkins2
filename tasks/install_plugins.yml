@@ -21,7 +21,7 @@
     # - proxy_configuration.groovy
 
 - name: Security Realm Checking
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/security_realm_name.groovy"
+  shell: "bash /tmp/security_realm_name.sh"
   register: jenkins2_security_realm_name
 
 - name: CLI Login
