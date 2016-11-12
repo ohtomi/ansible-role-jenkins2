@@ -21,7 +21,7 @@ jenkins2_suggested_plugins:
   - cloudbees-folder
   - credentials-binding
   - email-ext
-  # - git
+  - git
   - gradle
   - ldap
   - mailer
@@ -32,7 +32,7 @@ jenkins2_suggested_plugins:
   - subversion
   - timestamper
   - workflow-aggregator
-  # - github-organization-folder
+  - github-organization-folder
   - ws-cleanup
 
 jenkins2_plugins: []
