@@ -1,6 +1,8 @@
 ---
 # handlers file for ansible-role-jenkins
 
+# https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/jenkins/install/platform-plugins.json
+
 - name: Restart Jenkins
   service:
     name: jenkins
