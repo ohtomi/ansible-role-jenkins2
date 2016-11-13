@@ -24,8 +24,17 @@
   shell: "bash /tmp/security_realm_name.sh"
   register: jenkins2_security_realm_name
 
+- name: CLI Password File Creation
+  copy:
+    content: "{{ jenkins2_cli_password }}"
+    dest: /tmp/jenkins-cli-password
+    owner: root
+    group: root
+    mode: 0444
+  when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
+
 - name: CLI Login
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} login --username {{ jenkins2_cli_username }}  --password {{ jenkins2_cli_password }}"
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} login --username {{ jenkins2_cli_username }}  --password-file /tmp/jenkins-cli-password"
   when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
 
 - name: Proxy Configuration
@@ -43,3 +52,8 @@
 - name: CLI Logout
   shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} logout"
   when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
+
+- name: CLI Password File Deletion
+  file:
+    path: /tmp/jenkins-cli-password
+    state: absent
