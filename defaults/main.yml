@@ -13,6 +13,16 @@ jenkins2_cli_username: admin
 
 jenkins2_cli_password: admin
 
+jenkins2_proxy_host: ''
+
+jenkins2_proxy_port: 0
+
+jenkins2_proxy_username: ''
+
+jenkins2_proxy_password: ''
+
+jenkins2_proxy_no_proxy_hosts: ''
+
 # https://github.com/jenkinsci/jenkins/blob/master/core/src/main/resources/jenkins/install/platform-plugins.json
 jenkins2_suggested_plugins:
   - ant
