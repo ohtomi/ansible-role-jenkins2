@@ -5,7 +5,27 @@ jenkins2_version: jenkins
 
 jenkins2_disable_gpg_check: no
 
+# jenkins2_home: /var/lib/jenkins
+
+jenkins2_java_cmd: ''
+
+# jenkins2_user: jenkins
+
+jenkins2_java_options: "-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+
 jenkins2_http_port: 8080
+
+jenkins2_listen_address: ''
+
+jenkins2_debug_level: 5
+
+jenkins2_enable_access_log: no
+
+jenkins2_handler_max: 100
+
+jenkins2_handler_idle: 20
+
+jenkins2_args: ''
 
 jenkins2_context_path: ''
 
