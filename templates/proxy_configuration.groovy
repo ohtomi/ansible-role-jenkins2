@@ -9,6 +9,7 @@ if (host != "") {
     proxy.save()
     jenkins.model.Jenkins.instance.proxy = proxy
 } else {
+    def xmlFile = hudson.ProxyConfiguration.xmlFile
+    xmlFile.delete()
     jenkins.model.Jenkins.instance.proxy = null
-    jenkins.model.Jenkins.instance.save()
 }
