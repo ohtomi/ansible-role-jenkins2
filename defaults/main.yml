@@ -5,6 +5,10 @@ jenkins2_version: jenkins
 
 jenkins2_disable_gpg_check: no
 
+jenkins2_rpm_key_validate_certs: yes
+
+jenkins2_rpm_key_proxy_url: ''
+
 # jenkins2_home: /var/lib/jenkins
 
 jenkins2_java_cmd: ''

@@ -19,6 +19,7 @@
   with_items:
     - security_realm_name.sh
     - proxy_configuration.groovy
+    - update_center_refresh.groovy
 
 - name: Security Realm Checking
   shell: "bash /tmp/security_realm_name.sh"
@@ -28,9 +29,7 @@
   copy:
     content: "{{ jenkins2_cli_password }}"
     dest: /tmp/jenkins-cli-password
-    owner: root
-    group: root
-    mode: 0444
+    mode: 0400
   when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
 
 - name: CLI Login
@@ -39,6 +38,9 @@
 
 - name: Proxy Configuration
   shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/proxy_configuration.groovy"
+
+- name: Update Center Refresh
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/update_center_refresh.groovy"
 
 - name: Plugins Installation
   shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} install-plugin {{ item }}"

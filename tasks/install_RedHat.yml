@@ -2,8 +2,14 @@
 # included file
 
 - name: Jenkins RPM Key
+  environment:
+    http_proxy: "{{ jenkins2_rpm_key_proxy_url }}"
+    HTTP_PROXY: "{{ jenkins2_rpm_key_proxy_url }}"
+    https_proxy: "{{ jenkins2_rpm_key_proxy_url }}"
+    HTTPS_PROXY: "{{ jenkins2_rpm_key_proxy_url }}"
   rpm_key:
     key: "https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+    validate_certs: "{{ jenkins2_rpm_key_validate_certs }}"
     state: present
   become: yes
 
