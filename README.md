@@ -18,7 +18,7 @@ Role Variables
 #
 # Plugins that you would like to be installed.
 #
-jenkins2_plugins
+jenkins2_plugins: []
 
 ## Type: string
 #
@@ -31,6 +31,19 @@ jenkins2_version: jenkins
 # Whether to disable gpg-check at installing Jenkins.
 #
 jenkins2_disable_gpg_check: no
+
+## Type: yesno
+#
+# Whether to enable certificate-validation at importing RPM key.
+#
+jenkins2_rpm_key_validate_certs: yes
+
+## Type: string
+#
+# URL of the HTTP proxy to be used at importing RPM key.
+# Set to '' (empty string) to disable HTTP proxy
+#
+jenkins2_rpm_key_proxy_url: ''
 
 ## Type: string
 #
@@ -179,4 +192,4 @@ MIT
 Author Information
 ------------------
 
-This role was authored by Kenichi Ohtomi.
+This role is heavily inspired by [Karl M. Davis](https://github.com/karlmdavis/ansible-jenkins2).
