@@ -15,13 +15,13 @@ before_install:
 
 script:
   # Run container in detached state
-  - sudo docker run --detach --privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro --cidfile /tmp/container_id ansible-role-jenkins2
+  - sudo docker run --detach --privileged ansible-role-jenkins2
   # Check syntax of ansible playbook
-  - sudo docker exec "$(cat /tmp/container_id)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml --syntax-check
+  - sudo docker exec "$(docker ps -lq)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml --syntax-check
   # Run ansible playbook
-  - sudo docker exec "$(cat /tmp/container_id)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml
+  - sudo docker exec "$(docker ps -lq)" ansible-playbook -i /etc/ansible/inventory /etc/ansible/test.yml
   # Clean up
-  - sudo docker stop "$(cat /tmp/container_id)"
+  - sudo docker stop "$(docker ps -lq)"
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/

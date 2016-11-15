@@ -13,5 +13,4 @@ RUN yum clean all
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/' /etc/sudoers
 # Install Ansible role files
 COPY . /etc/ansible/
-VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
