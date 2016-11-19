@@ -1,4 +1,4 @@
-Role Name
+Jenkins 2
 =========
 
 This role can be used to install [Jenkins 2](https://jenkins.io/2.0/)
@@ -9,6 +9,7 @@ Requirements
 ------------
 
 - Ansible 2.x
+- JVM
 
 Role Variables
 --------------
