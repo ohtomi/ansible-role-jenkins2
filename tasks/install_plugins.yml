@@ -27,34 +27,26 @@
 
 - name: CLI Password File Creation
   copy:
-    content: "{{ jenkins2_cli_password }}"
-    dest: /tmp/jenkins-cli-password
+    content: "{{ jenkins2_cli_username }}:{{ jenkins2_cli_password }}"
+    dest: /tmp/jenkins-cli-credentials
     mode: 0400
   when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
 
-- name: CLI Login
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} login --username {{ jenkins2_cli_username }}  --password-file /tmp/jenkins-cli-password"
-  when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
-
 - name: Proxy Configuration
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/proxy_configuration.groovy"
+  shell: "cat /tmp/proxy_configuration.groovy | java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }}{% if jenkins2_security_realm_name.stdout != 'hudson.security.SecurityRealm$None' %} -auth @/tmp/jenkins-cli-credentials{% endif %} groovy ="
 
 - name: Update Center Refresh
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} groovy /tmp/update_center_refresh.groovy"
+  shell: "cat /tmp/update_center_refresh.groovy | java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }}{% if jenkins2_security_realm_name.stdout != 'hudson.security.SecurityRealm$None' %} -auth @/tmp/jenkins-cli-credentials{% endif %} groovy ="
 
 - name: Plugins Installation
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} install-plugin {{ item }}"
+  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }}{% if jenkins2_security_realm_name.stdout != 'hudson.security.SecurityRealm$None' %} -auth @/tmp/jenkins-cli-credentials{% endif %} install-plugin {{ item }}"
   with_items:
     - "{{ jenkins2_suggested_plugins }}"
     - "{{ jenkins2_plugins }}"
   notify:
     - Restart Jenkins
 
-- name: CLI Logout
-  shell: "java -jar /tmp/jenkins-cli.jar -s http://localhost:{{ jenkins2_http_port }}{{ jenkins2_context_path | default('') }} logout"
-  when: jenkins2_security_realm_name.stdout != "hudson.security.SecurityRealm$None"
-
 - name: CLI Password File Deletion
   file:
-    path: /tmp/jenkins-cli-password
+    path: /tmp/jenkins-cli-credentials
     state: absent
