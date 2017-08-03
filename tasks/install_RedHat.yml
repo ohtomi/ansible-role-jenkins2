@@ -18,6 +18,7 @@
     name: jenkinsrepo
     description: Jenkins YUM Repository
     baseurl: http://pkg.jenkins.io/redhat
+    proxy: "{{ jenkins2_rpm_key_proxy_url }}"
     gpgcheck: yes
     state: present
   become: yes
